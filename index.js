@@ -23,9 +23,19 @@ _List = [..._Generic.map(zipCode => ({ name: "N/A", zipCode })), ..._List];
 
 const _found = [];
 
-function save(data) {
+function delay(time) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), time);
+  });
+}
+
+function Info(...args) {
+  return console.info(...args, "\n");
+}
+
+function save(fileName, data) {
   fs.writeFileSync(
-    "./found.txt",
+    `./${fileName}.txt`,
     _.join(";\r", _.map(({ name, zipCode }) => `${name}, ${zipCode}`, _found))
   );
 }
@@ -113,7 +123,7 @@ async function getAppointments(browser, list = [], index = 0) {
     if (!_.find(["name", newCityName], _found)) {
       _found.push({ name: newCityName, zipCode: city.zipCode });
     }
-    save(_found);
+    save(`found-${city.zipCode}`, _found);
   } else {
     Info(status);
   }
@@ -121,21 +131,17 @@ async function getAppointments(browser, list = [], index = 0) {
   return getAppointments(browser, list, ++index);
 }
 
-function delay(time) {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(), time);
+async function checkMiami() {}
+
+function Run() {
+  Info(`Initializing... ${_List.length} zip codes to discover`);
+  phantomjs.run("--webdriver=4444").then(async program => {
+    let browser = webdriverio.remote(wdOpts).init();
+
+    await getAppointments(browser, _List, 507);
+
+    console.log(_found);
   });
 }
 
-function Info(...args) {
-  return console.info(...args, "\n");
-}
-
-Info(`Initializing... ${_List.length} zip codes to discover`);
-phantomjs.run("--webdriver=4444").then(async program => {
-  let browser = webdriverio.remote(wdOpts).init();
-
-  await getAppointments(browser, _List, 507);
-
-  console.log(_found);
-});
+Run();
