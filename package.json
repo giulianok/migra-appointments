@@ -1,0 +1,28 @@
+{
+  "name": "migra-appointments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giulianok/migra-appointments.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giulianok/migra-appointments/issues"
+  },
+  "homepage": "https://github.com/giulianok/migra-appointments#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "lodash": "^4.17.5",
+    "phantomjs-prebuilt": "^2.1.16",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "webdriverio": "^4.10.2"
+  }
+}
